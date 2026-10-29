@@ -10,18 +10,6 @@
 
 > A reusable skill for turning a Chinese lecture recording plus slides into a cleaned transcript and a structured event summary — on a CPU-only Windows machine, with a resumable parallel ASR pipeline and a Chinese Word renderer.
 
-## 为什么不是“直接跑 Whisper”
-
-这套流程来自两次真实任务：一场 2 小时 20 分的经验分享会，和一场 45 分钟的培养方案解读。第一次跑了 **8 小时**，第二次只用了 **1 小时**。差别不在模型，而在参数和流程：
-
-| 做法 | 结果 |
-|---|---|
-| `large-v3`，单进程 | 0.3x，2h20 要 7 小时 |
-| turbo，17 分钟大块，beam 5，3 进程 × 4 线程 | 单块 7.6 小时（0.04x），整场 8 小时 |
-| turbo，60 秒小块，beam 1，3 进程 × 5 线程 | 45 分钟录音约 25 分钟转完 |
-
-技能里固化了后一种配置，并处理了这些实际会卡住的地方：
-
 - HuggingFace 下载失败 / 308 / TLS 断流 → ModelScope 断点续传；
 - 微信 MP3 的 LAME 头 → PyAV 失败时自动回退 `imageio-ffmpeg`；
 - 8 个 worker 内存溢出 → 每进程约 1.3 GB，默认 3 个；
