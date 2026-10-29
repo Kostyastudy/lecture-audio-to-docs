@@ -1,0 +1,18 @@
+# work files / models / generated audio
+work/
+models/
+*.wav
+*.mp3
+*.m4a
+*.docx
+*.pdf
+
+# python
+__pycache__/
+*.pyc
+
+# editors
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
